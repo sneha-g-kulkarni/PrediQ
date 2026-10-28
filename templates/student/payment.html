@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Required - PrediQ{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="payment-card">
+                <i class="fas fa-rupee-sign fa-4x text-primary mb-3"></i>
+                <h3 class="text-primary-custom">Payment Required</h3>
+                <p class="lead">You have used your 2 free downloads</p>
+                <p class="text-muted">Pay to download this paper</p>
+                
+                <div class="payment-amount">₹40</div>
+                
+                <p class="mb-4"><small class="text-muted">One-time payment for this download</small></p>
+                
+                <div class="alert alert-info mb-4">
+                    <i class="fas fa-info-circle"></i> 
+                    <strong>Note:</strong> Payment is ₹40 per additional download after free limit
+                </div>
+                
+                <form method="POST" action="{{ url_for('process_payment') }}" id="paymentForm">
+                    <button type="submit" class="btn btn-primary btn-lg px-5" id="payBtn">
+                        <i class="fas fa-check-circle"></i> Pay ₹40 & Download
+                    </button>
+                </form>
+                
+                <a href="{{ url_for('student_dashboard') }}" class="btn btn-link mt-3">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                
+                <script>
+                document.getElementById('paymentForm').addEventListener('submit', function(e) {
+                    var btn = document.getElementById('payBtn');
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+                });
+                </script>
+                
+                <div class="mt-4 p-3 bg-light rounded text-start">
+                    <small class="text-muted">
+                        <strong>Note:</strong> This is a demonstration payment system for academic purposes. 
+                        No actual charges will be made.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

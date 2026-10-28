@@ -1,0 +1,32 @@
+**1: Student**
+* Student logs into the app.
+* Selects **year** → options: **10th** or **2nd PU**.
+* Then selects **board** → options: **State** or **CBSE** *(if 10th is chosen)*.
+* Then selects **course** → options: **PCMB** or **PCMC** *(if 2nd PU is chosen and it is Karnataka State Board)*.
+* Then selects **subject** *(required for both 10th and 12th)*.
+
+**Subjects List:**
+* For **10th**: Mathematics, Science, Social Science, English
+* For **12th (PCMB)**: Physics, Chemistry, Maths, Biology
+* For **12th (PCMC)**: Physics, Chemistry, Maths, Computer Science
+
+**Next Options:**
+* Option to **View Previous Year Papers**
+* Option to **Create Question Paper**
+
+**If “View Previous Year Questions” is selected:**
+* A **PDF of previous year questions** appears.
+* Questions are arranged in **descending order** based on how many times they have appeared.
+* Use **semantic analyzer** to detect same-meaning but differently worded into questions [combine same question asked into differtent year into a single question from the uploaded pdfs] .
+* Each question shows a **year stamp** on the **top right corner** indicating when it appeared.
+* Students can **download these PDFs**, but:
+  * They can **download only 2 PDFs for free**.
+  * After that, each additional PDF costs **₹40**.
+* There are **two separate download counters** — one for previous year papers and one for other question papers.
+
+**If “Create Question Paper” is selected:**
+* The question paper follows the **same format** as the uploaded ones.
+* Students can choose **difficulty level**:
+  * **Easy** → mostly repeated questions.
+  * **Medium** → mix of frequently and moderately repeated questions.
+  * **Hard** → mix of moderately and rarely repeated questions.

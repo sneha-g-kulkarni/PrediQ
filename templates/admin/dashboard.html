@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - PrediQ{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-primary-custom mb-4">
+        <i class="fas fa-user-shield"></i> Admin Dashboard
+    </h2>
+
+    <!-- Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <i class="fas fa-file-pdf fa-2x text-primary mb-2"></i>
+                <h3>{{ total_papers }}</h3>
+                <p>Question Papers</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <i class="fas fa-rupee-sign fa-2x text-success mb-2"></i>
+                <h3>₹{{ "%.2f"|format(total_payments) }}</h3>
+                <p>Total Payments</p>
+                <small class="text-muted">{{ total_payment_count }} transactions</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <i class="fas fa-download fa-2x text-info mb-2"></i>
+                <h3>{{ total_downloads }}</h3>
+                <p>Total Downloads</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row">
+        <div class="col-12 mb-3">
+            <h4 class="text-primary-custom">Quick Actions</h4>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <a href="{{ url_for('admin_upload') }}" class="text-decoration-none">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-upload fa-3x text-primary mb-3"></i>
+                        <h5>Upload Paper</h5>
+                        <p class="text-muted small">Add new question paper</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <a href="{{ url_for('admin_papers') }}" class="text-decoration-none">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-list fa-3x text-success mb-3"></i>
+                        <h5>View Papers</h5>
+                        <p class="text-muted small">Manage question papers</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <a href="{{ url_for('admin_payments') }}" class="text-decoration-none">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-money-bill-wave fa-3x text-warning mb-3"></i>
+                        <h5>Payments</h5>
+                        <p class="text-muted small">View transactions</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <a href="{{ url_for('admin_downloads') }}" class="text-decoration-none">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
+                        <h5>Downloads</h5>
+                        <p class="text-muted small">Activity logs</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

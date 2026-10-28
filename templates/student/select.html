@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Select Your Preferences - PrediQ{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-primary-custom mb-4">
+        <i class="fas fa-graduation-cap"></i> Start Your Practice
+    </h2>
+
+    <!-- Download Status -->
+    <div class="download-status mb-4">
+        <div class="text-center">
+            <strong><i class="fas fa-download"></i> Free Downloads Used: {{ prev_year_downloads + practice_downloads }}/2</strong>
+            {% if (prev_year_downloads + practice_downloads) >= 2 %}
+                <br><span class="badge bg-warning mt-2">₹40 per additional download</span>
+            {% else %}
+                <br><span class="badge bg-success mt-2">{{ 2 - (prev_year_downloads + practice_downloads) }} free downloads remaining</span>
+            {% endif %}
+        </div>
+    </div>    <!-- Selection Panel -->
+    <div class="selection-panel">
+        <h4><i class="fas fa-cog"></i> Configure Your Preferences</h4>
+        <form method="POST" id="selectionForm">
+            <div class="row g-3 mb-4">
+                <!-- Year Selection -->
+                <div class="col-md-6">
+                    <label for="year" class="form-label">Class/Year *</label>
+                    <select class="form-select" id="year" name="year" required>
+                        <option value="">Select Year</option>
+                        <option value="10th">10th</option>
+                        <option value="2nd_PU">2nd PU</option>
+                    </select>
+                </div>
+
+                <!-- Board Selection (for 10th only) -->
+                <div class="col-md-6" id="boardDiv" style="display: none;">
+                    <label for="board" class="form-label">Board *</label>
+                    <select class="form-select" id="board" name="board">
+                        <option value="">Select Board</option>
+                        <option value="CBSE">CBSE</option>
+                        <option value="STATE">Karnataka State Board</option>
+                    </select>
+                </div>
+
+                <!-- Course Selection (for 2nd PU with Karnataka State Board only) -->
+                <div class="col-md-6" id="courseDiv" style="display: none;">
+                    <label for="course" class="form-label">Course *</label>
+                    <select class="form-select" id="course" name="course">
+                        <option value="">Select Course</option>
+                        <option value="PCMB">PCMB</option>
+                        <option value="PCMC">PCMC</option>
+                    </select>
+                </div>
+
+                <!-- Subject Selection -->
+                <div class="col-md-6" id="subjectDiv" style="display: none;">
+                    <label for="subject" class="form-label">Subject *</label>
+                    <select class="form-select" id="subject" name="subject" required>
+                        <option value="">Select Subject</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Search Button -->
+            <div class="text-center mt-4" id="searchButton" style="display: none;">
+                <button type="submit" class="btn btn-primary btn-lg px-5" formaction="{{ url_for('search_results') }}">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const subjects10th = ["Mathematics", "Science", "Social Science", "English"];
+const subjectsPCMB = ["Physics", "Chemistry", "Mathematics", "Biology"];
+const subjectsPCMC = ["Physics", "Chemistry", "Mathematics", "Computer Science"];
+
+const yearSelect = document.getElementById('year');
+const boardDiv = document.getElementById('boardDiv');
+const boardSelect = document.getElementById('board');
+const courseDiv = document.getElementById('courseDiv');
+const courseSelect = document.getElementById('course');
+const subjectDiv = document.getElementById('subjectDiv');
+const subjectSelect = document.getElementById('subject');
+
+// Year selection handler
+yearSelect.addEventListener('change', function() {
+    const year = this.value;
+    
+    // Reset everything
+    boardDiv.style.display = 'none';
+    courseDiv.style.display = 'none';
+    subjectDiv.style.display = 'none';
+    document.getElementById('searchButton').style.display = 'none';
+    boardSelect.value = '';
+    courseSelect.value = '';
+    subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+    
+    if (year === '10th') {
+        boardDiv.style.display = 'block';
+        boardSelect.required = true;
+        courseSelect.required = false;
+    } else if (year === '2nd_PU') {
+        // For 2nd PU, show course selection directly (Karnataka State Board is assumed)
+        courseDiv.style.display = 'block';
+        courseSelect.required = true;
+        boardSelect.required = false;
+        boardSelect.value = 'STATE'; // Auto-set to Karnataka State Board
+    }
+});
+
+// Board selection handler (for 10th)
+boardSelect.addEventListener('change', function() {
+    if (this.value && yearSelect.value === '10th') {
+        updateSubjects(subjects10th);
+        subjectDiv.style.display = 'block';
+    } else {
+        subjectDiv.style.display = 'none';
+        document.getElementById('searchButton').style.display = 'none';
+    }
+});
+
+// Course selection handler (for 2nd PU)
+courseSelect.addEventListener('change', function() {
+    const course = this.value;
+    if (course === 'PCMB') {
+        updateSubjects(subjectsPCMB);
+        subjectDiv.style.display = 'block';
+    } else if (course === 'PCMC') {
+        updateSubjects(subjectsPCMC);
+        subjectDiv.style.display = 'block';
+    } else {
+        subjectDiv.style.display = 'none';
+        document.getElementById('searchButton').style.display = 'none';
+    }
+});
+
+// Subject selection handler
+subjectSelect.addEventListener('change', function() {
+    const searchButton = document.getElementById('searchButton');
+    if (this.value) {
+        searchButton.style.display = 'block';
+    } else {
+        searchButton.style.display = 'none';
+    }
+});
+
+function updateSubjects(subjectList) {
+    subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+    subjectList.forEach(subject => {
+        const option = document.createElement('option');
+        option.value = subject;
+        option.textContent = subject;
+        subjectSelect.appendChild(option);
+    });
+}
+</script>
+
+{% block extra_css %}
+<style>
+    .btn:disabled {
+        cursor: not-allowed;
+    }
+</style>
+{% endblock %}
+{% endblock %}

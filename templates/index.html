@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1><i class="fas fa-graduation-cap"></i> Welcome to PrediQ</h1>
+        <p class="lead">Smart Exam Preparation System for 10th & 2nd PUC Students</p>
+        <div class="mt-4">
+            <a href="{{ url_for('register') }}" class="btn btn-light btn-lg me-3">
+                <i class="fas fa-user-plus"></i> Register Now
+            </a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <i class="fas fa-book fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Previous Year Papers</h5>
+                    <p class="card-text">Access previous year question papers sorted by frequency of questions</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <i class="fas fa-magic fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Generate Practice Papers</h5>
+                    <p class="card-text">Create custom practice papers with Easy, Medium, or Hard difficulty</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <i class="fas fa-brain fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Smart Analysis</h5>
+                    <p class="card-text">AI-powered semantic analysis to identify frequently asked questions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-lg-6 mb-4">
+            <h3 class="text-primary-custom">For Students</h3>
+            <ul class="list-unstyled">
+                <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Select your class (10th or 2nd PU)</li>
+                <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Choose board (CBSE/State) and subjects</li>
+                <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Download previous year papers</li>
+                <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Generate practice papers</li>
+                <li class="mb-2"><i class="fas fa-check-circle text-success"></i> 2 free downloads, then ₹40 per paper</li>
+            </ul>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <h3 class="text-primary-custom">For Administrators</h3>
+            <ul class="list-unstyled">
+                <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Upload question papers easily</li>
+                <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Track all payments and transactions</li>
+                <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Monitor download activity</li>
+                <li class="mb-2"><i class="fas fa-check-circle text-success"></i> View comprehensive reports</li>
+                <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Manage question database</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

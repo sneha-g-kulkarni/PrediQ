@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Login - PrediQ{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow">
+                <div class="card-header text-white text-center py-3">
+                    <h4 class="mb-0"><i class="fas fa-sign-in-alt"></i> Login to PrediQ</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        <!-- User Type Selection -->
+                        <div class="mb-4 text-center">
+                            <div class="btn-group" role="group">
+                                <input type="radio" class="btn-check" name="user_type" id="student" value="student" checked>
+                                <label class="btn btn-outline-primary" for="student">
+                                    <i class="fas fa-user-graduate"></i> Student
+                                </label>
+                                
+                                <input type="radio" class="btn-check" name="user_type" id="admin" value="admin">
+                                <label class="btn btn-outline-primary" for="admin">
+                                    <i class="fas fa-user-shield"></i> Admin
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Username/Email -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label">
+                                <span id="usernameLabel">Username</span>
+                            </label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+
+                        <!-- Login Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Register Link (for students only) -->
+                    <div class="text-center mt-4" id="registerLink">
+                        <p class="mb-0">Don't have an account? 
+                            <a href="{{ url_for('register') }}" class="text-decoration-none">Register here</a>
+                        </p>
+                    </div>
+
+                    <!-- Admin Info -->
+                    <div class="mt-4 p-3 bg-light rounded" id="adminInfo" style="display: none;">
+                        <small class="text-muted">
+                            <strong>Default Admin Credentials:</strong><br>
+                            Email: admin@prediq.com<br>
+                            Password: admin123
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Toggle username label and show/hide elements based on user type
+    document.querySelectorAll('input[name="user_type"]').forEach((elem) => {
+        elem.addEventListener('change', function() {
+            const userType = document.querySelector('input[name="user_type"]:checked').value;
+            const usernameLabel = document.getElementById('usernameLabel');
+            const registerLink = document.getElementById('registerLink');
+            const adminInfo = document.getElementById('adminInfo');
+            
+            if (userType === 'admin') {
+                usernameLabel.textContent = 'Email';
+                registerLink.style.display = 'none';
+                adminInfo.style.display = 'block';
+            } else {
+                usernameLabel.textContent = 'Username';
+                registerLink.style.display = 'block';
+                adminInfo.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}

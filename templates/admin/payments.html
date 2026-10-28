@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Payments - Admin - PrediQ{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-primary-custom mb-4">
+        <i class="fas fa-rupee-sign"></i> Payment Transactions
+    </h2>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Student</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payment in payments %}
+                        <tr>
+                            <td><code>{{ payment.transaction_id }}</code></td>
+                            <td>{{ payment.get('full_name', payment.get('username', 'Unknown')) }}</td>
+                            <td class="text-success fw-bold">₹{{ "%.2f"|format(payment.amount) }}</td>
+                            <td>{{ payment.payment_date[:10] if payment.payment_date else 'N/A' }}</td>
+                            <td><span class="badge bg-success">{{ payment.status }}</span></td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No payments recorded yet</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

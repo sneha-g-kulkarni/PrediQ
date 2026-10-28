@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results - PrediQ{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Selection Summary Card -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="fas fa-info-circle"></i> Your Selection</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <strong>Class/Year:</strong>
+                    <p class="text-primary">{{ year }}</p>
+                </div>
+                {% if board %}
+                <div class="col-md-3">
+                    <strong>Board:</strong>
+                    <p class="text-primary">{{ board }}</p>
+                </div>
+                {% endif %}
+                {% if course %}
+                <div class="col-md-3">
+                    <strong>Course:</strong>
+                    <p class="text-primary">{{ course }}</p>
+                </div>
+                {% endif %}
+                <div class="col-md-3">
+                    <strong>Subject:</strong>
+                    <p class="text-primary">{{ subject }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Download Status -->
+    <div class="alert alert-info text-center mb-4">
+        <i class="fas fa-download"></i> 
+        <strong>Free Downloads Used: {{ prev_year_downloads + practice_downloads }}/2</strong>
+        {% if (prev_year_downloads + practice_downloads) >= 2 %}
+            <br><span class="badge bg-warning mt-2">₹40 per additional download</span>
+        {% else %}
+            <br><span class="badge bg-success mt-2">{{ 2 - (prev_year_downloads + practice_downloads) }} free downloads remaining</span>
+        {% endif %}
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row g-4">
+        <!-- Previous Year Papers -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="fas fa-file-pdf fa-4x text-primary"></i>
+                    </div>
+                    <h5 class="card-title">Download Previous Year Question Paper</h5>
+                    <p class="card-text text-muted">
+                        Get all previous year questions sorted by frequency (most asked first).
+                        Questions with similar meanings are grouped together using semantic analysis.
+                        Each question shows the year(s) it appeared.
+                    </p>
+                    <form method="POST" action="{{ url_for('view_previous_year') }}">
+                        <input type="hidden" name="year" value="{{ year }}">
+                        <input type="hidden" name="board" value="{{ board }}">
+                        <input type="hidden" name="course" value="{{ course }}">
+                        <input type="hidden" name="subject" value="{{ subject }}">
+                        <button type="submit" class="btn btn-primary btn-lg mt-3">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generate Practice Paper -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="fas fa-edit fa-4x text-success"></i>
+                    </div>
+                    <h5 class="card-title">Generate Practice Paper</h5>
+                    <p class="card-text text-muted">
+                        Create a custom practice paper based on difficulty level.
+                        Choose from Easy (repeated questions), Medium (mixed), or Hard (rare questions).
+                        Paper follows the same format as actual exam papers.
+                    </p>
+                    <form method="POST" action="{{ url_for('select_difficulty') }}">
+                        <input type="hidden" name="year" value="{{ year }}">
+                        <input type="hidden" name="board" value="{{ board }}">
+                        <input type="hidden" name="course" value="{{ course }}">
+                        <input type="hidden" name="subject" value="{{ subject }}">
+                        <button type="submit" class="btn btn-success btn-lg mt-3">
+                            <i class="fas fa-cog"></i> Choose Difficulty
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('student_select') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Selection
+        </a>
+    </div>
+</div>
+
+<style>
+.hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2) !important;
+}
+
+.card-body i {
+    transition: transform 0.3s ease;
+}
+
+.hover-card:hover i {
+    transform: scale(1.1);
+}
+</style>
+{% endblock %}

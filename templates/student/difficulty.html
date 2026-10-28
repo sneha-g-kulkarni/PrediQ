@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Select Difficulty - PrediQ{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-primary-custom mb-4">
+        <i class="fas fa-sliders-h"></i> Select Difficulty Level
+    </h2>
+
+    <!-- Selection Summary -->
+    <div class="alert alert-info mb-4">
+        <h5><i class="fas fa-info-circle"></i> Your Selection:</h5>
+        <strong>Year:</strong> {{ year }} | 
+        <strong>{% if board %}Board: {{ board }}{% endif %}{% if course %}Course: {{ course }}{% endif %}</strong> | 
+        <strong>Subject:</strong> {{ subject }}
+    </div>
+
+    <!-- Difficulty Selection -->
+    <div class="selection-panel">
+        <h4 class="mb-4">Choose Your Difficulty Level</h4>
+        <form method="POST">
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="difficulty-option">
+                        <input type="radio" class="btn-check" name="difficulty" id="easy" value="easy" checked>
+                        <label for="easy" class="w-100">
+                            <i class="fas fa-smile fa-3x text-success mb-3"></i>
+                            <h5 class="text-success">Easy</h5>
+                            <p class="mb-0 small text-muted">Mostly frequently repeated questions - Perfect for initial practice</p>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="difficulty-option">
+                        <input type="radio" class="btn-check" name="difficulty" id="medium" value="medium">
+                        <label for="medium" class="w-100">
+                            <i class="fas fa-meh fa-3x text-warning mb-3"></i>
+                            <h5 class="text-warning">Medium</h5>
+                            <p class="mb-0 small text-muted">Balanced mix of common and moderate questions</p>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="difficulty-option">
+                        <input type="radio" class="btn-check" name="difficulty" id="hard" value="hard">
+                        <label for="hard" class="w-100">
+                            <i class="fas fa-frown fa-3x text-danger mb-3"></i>
+                            <h5 class="text-danger">Hard</h5>
+                            <p class="mb-0 small text-muted">Few repeated, mostly rare or challenging questions</p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generate Button -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success btn-lg px-5">
+                    <i class="fas fa-magic"></i> Generate Practice Paper
+                </button>
+            </div>
+        </form>
+
+        <!-- Back Button -->
+        <div class="text-center mt-3">
+            <a href="{{ url_for('student_select') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Selection
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

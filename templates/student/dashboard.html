@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - PrediQ{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-primary-custom mb-4">
+        <i class="fas fa-tachometer-alt"></i> Welcome, {{ current_user.full_name }}!
+    </h2>
+
+    <!-- Download Status -->
+    <div class="download-status mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <strong><i class="fas fa-download"></i> Download Statistics:</strong>
+                Total Downloads: {{ downloads_count }} | 
+                Free Downloads Used: {{ prev_year_downloads + practice_downloads }}/2
+                {% if (prev_year_downloads + practice_downloads) >= 2 %}
+                    | <span class="text-warning">Additional downloads: ₹40 per download</span>
+                {% else %}
+                    | <span class="text-success">Free Downloads Remaining: {{ 2 - (prev_year_downloads + practice_downloads) }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body text-center p-5">
+                    <i class="fas fa-graduation-cap fa-4x text-primary mb-3"></i>
+                    <h4 class="card-title">Start Your Practice</h4>
+                    <p class="card-text">Select your preferences and choose to view previous year papers or generate practice papers</p>
+                    <a href="{{ url_for('student_select') }}" class="btn btn-primary btn-lg px-5">
+                        <i class="fas fa-play-circle"></i> Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Overview -->
+    <div class="row">
+        <div class="col-12">
+            <h4 class="text-primary-custom mb-3">How It Works</h4>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="text-primary mb-2">
+                        <i class="fas fa-list-ol fa-2x"></i>
+                    </div>
+                    <h6>Step 1</h6>
+                    <small>Select your class, board, and subject</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="text-primary mb-2">
+                        <i class="fas fa-file-pdf fa-2x"></i>
+                    </div>
+                    <h6>Step 2</h6>
+                    <small>Choose previous papers or generate new one</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="text-primary mb-2">
+                        <i class="fas fa-sliders-h fa-2x"></i>
+                    </div>
+                    <h6>Step 3</h6>
+                    <small>Select difficulty level if generating</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="text-primary mb-2">
+                        <i class="fas fa-download fa-2x"></i>
+                    </div>
+                    <h6>Step 4</h6>
+                    <small>Download and practice!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

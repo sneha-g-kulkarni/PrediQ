@@ -1,0 +1,24 @@
+# Web Framework
+Flask==3.0.0
+Flask-Login==0.6.3
+Flask-WTF==1.2.1
+Werkzeug==3.0.1
+
+# NLP and ML
+nltk==3.8.1
+scikit-learn==1.3.2
+numpy==1.24.3
+
+# PDF Processing
+PyPDF2==3.0.1
+reportlab==4.0.7
+fpdf2==2.7.6
+pillow==10.1.0
+
+# Database
+Flask-SQLAlchemy==3.1.1
+
+# Utilities
+python-dotenv==1.0.0
+WTForms==3.1.1
+email-validator==2.1.0

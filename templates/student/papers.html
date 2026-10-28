@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Previous Year Papers - PrediQ{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-primary-custom mb-4">
+        <i class="fas fa-book"></i> Previous Year Question Papers
+    </h2>
+
+    <!-- Selection Panel -->
+    <div class="selection-panel">
+        <h4><i class="fas fa-filter"></i> Select Your Preferences</h4>
+        <form method="POST">
+            <div class="row g-3">
+                <!-- Year Selection -->
+                <div class="col-md-6">
+                    <label for="year" class="form-label">Class/Year *</label>
+                    <select class="form-select" id="year" name="year" required>
+                        <option value="">Select Year</option>
+                        <option value="10th" {% if selected_year == '10th' %}selected{% endif %}>10th</option>
+                        <option value="2nd_PU" {% if selected_year == '2nd_PU' %}selected{% endif %}>2nd PU</option>
+                    </select>
+                </div>
+
+                <!-- Board Selection -->
+                <div class="col-md-6" id="boardDiv">
+                    <label for="board" class="form-label">Board</label>
+                    <select class="form-select" id="board" name="board">
+                        <option value="">Select Board</option>
+                        <option value="CBSE" {% if selected_board == 'CBSE' %}selected{% endif %}>CBSE</option>
+                        <option value="STATE" {% if selected_board == 'STATE' %}selected{% endif %}>State Board</option>
+                    </select>
+                </div>
+
+                <!-- Course Selection -->
+                <div class="col-md-6" id="courseDiv" style="display: none;">
+                    <label for="course" class="form-label">Course</label>
+                    <select class="form-select" id="course" name="course">
+                        <option value="">Select Course</option>
+                        <option value="PCMB" {% if selected_course == 'PCMB' %}selected{% endif %}>PCMB</option>
+                        <option value="PCMC" {% if selected_course == 'PCMC' %}selected{% endif %}>PCMC</option>
+                    </select>
+                </div>
+
+                <!-- Subject Selection -->
+                <div class="col-md-6">
+                    <label for="subject" class="form-label">Subject *</label>
+                    <select class="form-select" id="subject" name="subject" required>
+                        <option value="">Select Subject</option>
+                    </select>
+                </div>
+
+                <!-- Search Button -->
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-search"></i> Search Papers
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Papers List -->
+    {% if papers %}
+        <h4 class="mb-3">Available Papers ({{ papers|length }})</h4>
+        <div class="row">
+            {% for paper in papers %}
+                <div class="col-md-6 mb-3">
+                    <div class="paper-item">
+                        <div class="paper-title">{{ paper.title }}</div>
+                        <div class="paper-meta">
+                            <span class="badge bg-primary">{{ paper.year }}</span>
+                            <span class="badge bg-secondary">{{ paper.board }}</span>
+                            {% if paper.course %}
+                                <span class="badge bg-info">{{ paper.course }}</span>
+                            {% endif %}
+                            <span class="badge bg-success">{{ paper.subject }}</span>
+                        </div>
+                        <div class="mt-3">
+                            <a href="{{ url_for('download_paper', paper_id=paper.id) }}" 
+                               class="btn btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% elif request.method == 'POST' %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> No papers found for the selected criteria. Try different selections.
+        </div>
+    {% endif %}
+</div>
+
+<script>
+const subjects10th = ["Mathematics", "Science", "Social Science", "English"];
+const subjectsPCMB = ["Physics", "Chemistry", "Mathematics", "Biology"];
+const subjectsPCMC = ["Physics", "Chemistry", "Mathematics", "Computer Science"];
+
+document.getElementById('year').addEventListener('change', function() {
+    const year = this.value;
+    const boardDiv = document.getElementById('boardDiv');
+    const courseDiv = document.getElementById('courseDiv');
+    const subjectSelect = document.getElementById('subject');
+    
+    if (year === '10th') {
+        boardDiv.style.display = 'block';
+        courseDiv.style.display = 'none';
+        updateSubjects(subjects10th);
+    } else if (year === '2nd_PU') {
+        boardDiv.style.display = 'none';
+        courseDiv.style.display = 'block';
+        subjectSelect.innerHTML = '<option value="">Select Course First</option>';
+    } else {
+        boardDiv.style.display = 'none';
+        courseDiv.style.display = 'none';
+        subjectSelect.innerHTML = '<option value="">Select Year First</option>';
+    }
+});
+
+document.getElementById('course').addEventListener('change', function() {
+    const course = this.value;
+    if (course === 'PCMB') {
+        updateSubjects(subjectsPCMB);
+    } else if (course === 'PCMC') {
+        updateSubjects(subjectsPCMC);
+    }
+});
+
+function updateSubjects(subjects) {
+    const subjectSelect = document.getElementById('subject');
+    subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+    subjects.forEach(subject => {
+        const option = document.createElement('option');
+        option.value = subject;
+        option.textContent = subject;
+        subjectSelect.appendChild(option);
+    });
+}
+
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', function() {
+    const year = document.getElementById('year').value;
+    if (year === '10th') {
+        document.getElementById('boardDiv').style.display = 'block';
+        updateSubjects(subjects10th);
+    } else if (year === '2nd_PU') {
+        document.getElementById('courseDiv').style.display = 'block';
+        const course = document.getElementById('course').value;
+        if (course === 'PCMB') {
+            updateSubjects(subjectsPCMB);
+        } else if (course === 'PCMC') {
+            updateSubjects(subjectsPCMC);
+        }
+    }
+});
+</script>
+{% endblock %}

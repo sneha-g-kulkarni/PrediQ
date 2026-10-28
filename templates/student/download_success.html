@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Download Ready - PrediQ{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card text-center p-5">
+                <div class="mb-4">
+                    <i class="fas fa-check-circle fa-5x text-success"></i>
+                </div>
+                
+                <h2 class="text-success mb-3">Payment Successful!</h2>
+                
+                <div class="alert alert-success mb-4">
+                    <strong>Transaction ID:</strong> {{ transaction_id }}
+                </div>
+                
+                <h4 class="mb-4">{{ paper_title }}</h4>
+                
+                <p class="lead mb-4">Your paper is ready for download</p>
+                
+                <div class="d-grid gap-3 mb-4">
+                    <a href="{{ download_url or url_for('download_file', filename=download_file) }}" class="btn btn-primary btn-lg" download>
+                        <i class="fas fa-download"></i> Download Now
+                    </a>
+                    <a href="{{ url_for('student_dashboard') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-home"></i> Go to Dashboard
+                    </a>
+                    <a href="{{ url_for('student_papers') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-book"></i> Browse More Papers
+                    </a>
+                </div>
+                
+                <div class="mt-4 p-3 bg-light rounded text-start">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle"></i> 
+                        <strong>Note:</strong> Your download will start automatically. If it doesn't start, click the "Download Now" button above.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-download after 1 second
+setTimeout(function() {
+    window.location.href = "{{ download_url or url_for('download_file', filename=download_file) }}";
+}, 1000);
+</script>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Generate Practice Paper - PrediQ{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-primary-custom mb-4">
+        <i class="fas fa-magic"></i> Generate Practice Paper
+    </h2>
+
+    <!-- Selection Panel -->
+    <div class="selection-panel">
+        <h4><i class="fas fa-cog"></i> Configure Your Paper</h4>
+        <form method="POST">
+            <div class="row g-3 mb-4">
+                <!-- Year Selection -->
+                <div class="col-md-6">
+                    <label for="year" class="form-label">Class/Year *</label>
+                    <select class="form-select" id="year" name="year" required>
+                        <option value="">Select Year</option>
+                        <option value="10th">10th</option>
+                        <option value="2nd_PU">2nd PU</option>
+                    </select>
+                </div>
+
+                <!-- Board Selection -->
+                <div class="col-md-6" id="boardDiv">
+                    <label for="board" class="form-label">Board</label>
+                    <select class="form-select" id="board" name="board">
+                        <option value="">Select Board</option>
+                        <option value="CBSE">CBSE</option>
+                        <option value="STATE">State Board</option>
+                    </select>
+                </div>
+
+                <!-- Course Selection -->
+                <div class="col-md-6" id="courseDiv" style="display: none;">
+                    <label for="course" class="form-label">Course</label>
+                    <select class="form-select" id="course" name="course">
+                        <option value="">Select Course</option>
+                        <option value="PCMB">PCMB</option>
+                        <option value="PCMC">PCMC</option>
+                    </select>
+                </div>
+
+                <!-- Subject Selection -->
+                <div class="col-md-6">
+                    <label for="subject" class="form-label">Subject *</label>
+                    <select class="form-select" id="subject" name="subject" required>
+                        <option value="">Select Subject</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Difficulty Selection -->
+            <h5 class="text-primary-custom mb-3">Select Difficulty Level</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="difficulty-option">
+                        <input type="radio" class="btn-check" name="difficulty" id="easy" value="easy" checked>
+                        <label for="easy" class="w-100">
+                            <h5 class="text-success"><i class="fas fa-smile"></i> Easy</h5>
+                            <p class="mb-0 small text-muted">Mostly frequently repeated questions - Perfect for initial practice</p>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="difficulty-option">
+                        <input type="radio" class="btn-check" name="difficulty" id="medium" value="medium">
+                        <label for="medium" class="w-100">
+                            <h5 class="text-warning"><i class="fas fa-meh"></i> Medium</h5>
+                            <p class="mb-0 small text-muted">Balanced mix of common and moderate questions</p>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="difficulty-option">
+                        <input type="radio" class="btn-check" name="difficulty" id="hard" value="hard">
+                        <label for="hard" class="w-100">
+                            <h5 class="text-danger"><i class="fas fa-frown"></i> Hard</h5>
+                            <p class="mb-0 small text-muted">Few repeated, mostly rare or challenging questions</p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generate Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-5">
+                    <i class="fas fa-magic"></i> Generate Practice Paper
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const subjects10th = ["Mathematics", "Science", "Social Science", "English"];
+const subjectsPCMB = ["Physics", "Chemistry", "Mathematics", "Biology"];
+const subjectsPCMC = ["Physics", "Chemistry", "Mathematics", "Computer Science"];
+
+document.getElementById('year').addEventListener('change', function() {
+    const year = this.value;
+    const boardDiv = document.getElementById('boardDiv');
+    const courseDiv = document.getElementById('courseDiv');
+    const subjectSelect = document.getElementById('subject');
+    
+    if (year === '10th') {
+        boardDiv.style.display = 'block';
+        courseDiv.style.display = 'none';
+        updateSubjects(subjects10th);
+    } else if (year === '2nd_PU') {
+        boardDiv.style.display = 'none';
+        courseDiv.style.display = 'block';
+        subjectSelect.innerHTML = '<option value="">Select Course First</option>';
+    } else {
+        boardDiv.style.display = 'none';
+        courseDiv.style.display = 'none';
+        subjectSelect.innerHTML = '<option value="">Select Year First</option>';
+    }
+});
+
+document.getElementById('course').addEventListener('change', function() {
+    const course = this.value;
+    if (course === 'PCMB') {
+        updateSubjects(subjectsPCMB);
+    } else if (course === 'PCMC') {
+        updateSubjects(subjectsPCMC);
+    }
+});
+
+function updateSubjects(subjects) {
+    const subjectSelect = document.getElementById('subject');
+    subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+    subjects.forEach(subject => {
+        const option = document.createElement('option');
+        option.value = subject;
+        option.textContent = subject;
+        subjectSelect.appendChild(option);
+    });
+}
+</script>
+{% endblock %}
